@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "dyspatch": {
+      "command": "sh",
+      "args": ["-c", "set -a && . ./.env && set +a && pnpm dev"]
+    }
+  }
+}
