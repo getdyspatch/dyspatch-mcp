@@ -418,10 +418,14 @@ describe.skipIf(!apiKey || !workspaceId)('MCP tools — comprehensive integratio
       ).resolves.not.toThrow()
     })
 
-    it('reject_draft — rejects the submitted draft', async () => {
+    it('reject_draft — rejects the submitted draft with feedback', async () => {
       if (!testDraftA) return
       await expect(
-        getTool(drftTools, 'reject_draft').handler({ type: 'email', draftId: testDraftA }),
+        getTool(drftTools, 'reject_draft').handler({
+          type: 'email',
+          draftId: testDraftA,
+          feedback: 'Rejected by automated integration test.',
+        }),
       ).resolves.not.toThrow()
     })
 
@@ -468,10 +472,14 @@ describe.skipIf(!apiKey || !workspaceId)('MCP tools — comprehensive integratio
       ).resolves.not.toThrow()
     })
 
-    it('approve_draft — approves and publishes draft B', async () => {
+    it('approve_draft — approves and publishes draft B with feedback', async () => {
       if (!testDraftB) return
       await expect(
-        getTool(drftTools, 'approve_draft').handler({ type: 'email', draftId: testDraftB }),
+        getTool(drftTools, 'approve_draft').handler({
+          type: 'email',
+          draftId: testDraftB,
+          feedback: 'Approved by automated integration test.',
+        }),
       ).resolves.not.toThrow()
       testDraftB = undefined // mark published so afterAll skips archive attempt
     })
