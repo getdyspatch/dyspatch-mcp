@@ -47,19 +47,23 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
   })),
 }))
 
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const tool = toolMap.get(request.params.name)
+export async function handleCallTool(
+  name: string,
+  args: Record<string, unknown>,
+  tools: Map<string, ToolDefinition> = toolMap,
+) {
+  const tool = tools.get(name)
   if (!tool) {
     return {
-      content: [{ type: 'text', text: `Unknown tool: ${request.params.name}` }],
+      content: [{ type: 'text', text: `Unknown tool: ${name}` }],
       isError: true,
     }
   }
 
   try {
-    const result = await tool.handler(request.params.arguments ?? {})
+    const result = await tool.handler(args)
     return {
-      content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
+      content: [{ type: 'text', text: result === undefined ? 'OK' : JSON.stringify(result, null, 2) }],
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
@@ -68,7 +72,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       isError: true,
     }
   }
-})
+}
+
+server.setRequestHandler(CallToolRequestSchema, async (request) =>
+  handleCallTool(request.params.name, request.params.arguments ?? {}),
+)
 
 const transport = new StdioServerTransport()
 await server.connect(transport)

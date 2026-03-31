@@ -5,12 +5,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-pnpm build    # compile src/ → dist/ (tsc)
-pnpm dev      # run without compiling (tsx)
-pnpm start    # run compiled output
+pnpm build              # compile src/ → dist/ (tsc)
+pnpm dev                # run without compiling (tsx)
+pnpm start              # run compiled output
+pnpm test               # run unit tests (vitest)
+pnpm test:integration   # run integration tests (requires DYSPATCH_API_KEY)
 ```
-
-No test runner is configured. Verify correctness by running `pnpm dev` or `pnpm build`.
 
 ## Environment Variables
 
@@ -21,7 +21,7 @@ No test runner is configured. Verify correctness by running `pnpm dev` or `pnpm 
 
 ## Architecture
 
-This is an **MCP server** (stdio transport) that wraps the Dyspatch REST API. It exposes 25 tools across 6 resource groups.
+This is an **MCP server** (stdio transport) that wraps the Dyspatch REST API. It exposes 34 tools across 6 resource groups.
 
 ### Data flow
 

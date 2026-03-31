@@ -9,6 +9,12 @@ MCP server for the [Dyspatch](https://www.dyspatch.io) API — manage email, SMS
 
 ## Setup
 
+### NPM
+
+```bash
+npm install -g dyspatch-mcp
+```
+
 ### Claude Code
 
 ```bash
@@ -80,6 +86,7 @@ env:     DYSPATCH_API_KEY=your_key
 | `archive_draft` | Soft-delete a draft |
 | `lock_draft_for_translation` | Lock a draft so it can be sent for translation |
 | `unlock_draft_for_translation` | Unlock a previously locked draft |
+| `get_draft_localization_keys` | Get all translatable string keys defined in a draft |
 
 ### Localizations
 
@@ -97,6 +104,11 @@ env:     DYSPATCH_API_KEY=your_key
 |------|-------------|
 | `list_blocks` | List reusable content blocks |
 | `get_block` | Get a single block |
+| `list_block_localizations` | List all localizations for a block |
+| `get_block_localization_keys` | Get translatable string keys for a block |
+| `upsert_block_localization` | Create or update a localization for a block |
+| `delete_block_localization` | Remove a localization from a block |
+| `set_block_translations` | Replace all translations for a block localization |
 
 ### Workspaces
 
@@ -110,8 +122,12 @@ env:     DYSPATCH_API_KEY=your_key
 | Tool | Description |
 |------|-------------|
 | `list_tags` | List tags (optionally filtered by type or workspace) |
+| `get_tag` | Get a single tag by ID |
 | `create_tag` | Create a new tag |
+| `update_tag` | Update a tag's name |
+| `delete_tag` | Delete a tag |
 | `assign_tag` | Assign a tag to a resource |
+| `unassign_tag` | Remove a tag from a resource |
 
 ## Use Cases
 
