@@ -17,7 +17,7 @@ const localizationRefSchema = typeAndDraft.extend({
 const getLocalizationSchema = z.object({
   type: TemplateType.describe('Template channel type'),
   localizationId: z.string().describe('Localization ID'),
-  targetLanguage: z.string().optional().describe('Target language for export (e.g. html, handlebars)'),
+  targetLanguage: z.string().optional().describe('Target language for compiled output (e.g. html, handlebars, liquid). Required for visual templates — omit only for code-based templates.'),
   themeId: z.string().optional().describe('Theme ID to use when compiling'),
 })
 

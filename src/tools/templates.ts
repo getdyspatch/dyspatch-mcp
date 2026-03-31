@@ -16,7 +16,7 @@ const getTemplateSchema = z.object({
   targetLanguage: z
     .string()
     .optional()
-    .describe('Target language for export (e.g. html, handlebars, liquid). Required for visual templates.'),
+    .describe('Target language for compiled output (e.g. html, handlebars, liquid). Required for visual templates — omit only for code-based templates.'),
   themeId: z.string().optional().describe('Theme ID to use when compiling the template'),
 })
 
