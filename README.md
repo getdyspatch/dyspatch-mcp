@@ -9,13 +9,9 @@ MCP server for the [Dyspatch](https://www.dyspatch.io) API — manage email, SMS
 
 ## Setup
 
-### NPM
+The server supports two transports: **stdio** (default, for process-based MCP clients) and **HTTP** (for network-accessible deployments).
 
-```bash
-npm install -g dyspatch-mcp
-```
-
-### Claude Code
+### Claude Code (stdio)
 
 ```bash
 claude mcp add dyspatch -e DYSPATCH_API_KEY=your_key -- npx dyspatch-mcp
@@ -23,7 +19,7 @@ claude mcp add dyspatch -e DYSPATCH_API_KEY=your_key -- npx dyspatch-mcp
 
 Restart Claude Code after running this command.
 
-### Claude Desktop
+### Claude Desktop — stdio (simplest)
 
 Add to your Claude Desktop config file:
 
@@ -46,14 +42,49 @@ Add to your Claude Desktop config file:
 
 Restart Claude Desktop after saving.
 
-### Other MCP clients
+### Claude Desktop — HTTP (run server locally, connect over HTTP)
 
-The server uses stdio transport. Point your client at:
+This is useful when you want the server running persistently in the background, or when you need to connect multiple clients to the same instance.
+
+**Step 1 — Start the server:**
+
+```bash
+DYSPATCH_API_KEY=your_key npx dyspatch-mcp --http
+```
+
+Or, if installed locally:
+
+```bash
+DYSPATCH_API_KEY=your_key PORT=3000 pnpm start:http
+```
+
+The server will listen on `http://localhost:3000/mcp`.
+
+**Step 2 — Point Claude Desktop at it:**
+
+```json
+{
+  "mcpServers": {
+    "dyspatch": {
+      "type": "http",
+      "url": "http://localhost:3000/mcp"
+    }
+  }
+}
+```
+
+Restart Claude Desktop after saving.
+
+### Other MCP clients (stdio)
 
 ```
 command: npx dyspatch-mcp
 env:     DYSPATCH_API_KEY=your_key
 ```
+
+### Other MCP clients (HTTP)
+
+Start the server as above, then configure your client to connect to `http://localhost:3000/mcp` using the MCP streamable HTTP transport.
 
 ## Configuration
 
@@ -61,6 +92,7 @@ env:     DYSPATCH_API_KEY=your_key
 |---|---|---|---|
 | `DYSPATCH_API_KEY` | Yes | — | API key from your Dyspatch account settings |
 | `DYSPATCH_API_VERSION` | No | `2026.01` | Override the API version |
+| `PORT` | No | `3000` | HTTP listen port (HTTP transport only) |
 
 ## Available Tools
 

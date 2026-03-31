@@ -41,7 +41,13 @@ DYSPATCH_API_KEY env var
 
 ### HTTP transport
 
-The HTTP server listens on `/mcp`. MCP clients connect by sending an `initialize` POST with no `mcp-session-id` header; subsequent requests include the session ID returned in the response header. Each session gets its own `Server` + `Transport` instance.
+The HTTP server listens on `/mcp`. Primary use case: run the server locally and connect Claude Desktop (or any HTTP-capable MCP client) to `http://localhost:PORT/mcp`.
+
+MCP clients connect by sending an `initialize` POST with no `mcp-session-id` header; subsequent requests include the session ID returned in the response header. Each session gets its own `Server` + `Transport` instance.
+
+```bash
+DYSPATCH_API_KEY=your_key PORT=3000 pnpm dev:http
+```
 
 ### Adding a new tool
 
