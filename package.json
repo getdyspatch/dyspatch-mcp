@@ -7,6 +7,15 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "dyspatch",
+    "email",
+    "templates",
+    "claude",
+    "ai"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
