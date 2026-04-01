@@ -11,6 +11,9 @@ name: 'Dependency review'
 on:
   pull_request:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 # If using a dependency submission action in this workflow this permission will need to be set to:
 #
 # permissions:
