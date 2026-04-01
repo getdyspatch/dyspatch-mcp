@@ -1,5 +1,3 @@
-[![Test](https://github.com/getdyspatch/dyspatch-mcp/actions/workflows/test.yml/badge.svg)](https://github.com/getdyspatch/dyspatch-mcp/actions/workflows/test.yml)
-
 # dyspatch-mcp
 
 MCP server for the [Dyspatch](https://www.dyspatch.io) API — manage email, SMS, push, voice, and live activity templates from any MCP-compatible AI client.
