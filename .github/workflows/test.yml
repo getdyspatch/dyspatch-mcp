@@ -6,9 +6,12 @@ on:
   pull_request:
 
 jobs:
-  unit:
+  unit-tests:
     name: Unit tests
     runs-on: ubuntu-latest
+    env:
+      DYSPATCH_API_KEY: ${{ secrets.TEST_DYSPATCH_API_KEY }}
+      WORKSPACE_ID: ${{ secrets.TEST_WORKSPACE_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

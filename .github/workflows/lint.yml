@@ -7,8 +7,11 @@ on:
 
 jobs:
   typecheck:
-    name: TypeScript
+    name: TypeScript Lint
     runs-on: ubuntu-latest
+    env:
+      DYSPATCH_API_KEY: ${{ secrets.TEST_DYSPATCH_API_KEY }}
+      WORKSPACE_ID: ${{ secrets.TEST_WORKSPACE_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

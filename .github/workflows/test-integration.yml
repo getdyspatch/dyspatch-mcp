@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  integration:
+  integration-tests:
     name: Integration tests
     runs-on: ubuntu-latest
     env:
