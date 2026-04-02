@@ -1,6 +1,10 @@
 {
   "mcpServers": {
-    "dyspatch": {
+    "dyspatch-latest": {
+      "command": "npx",
+      "args": ["-y", "dyspatch-mcp@latest"]
+    },
+    "dyspatch-dev": {
       "command": "sh",
       "args": ["-c", "set -a && . ./.env && set +a && pnpm dev"]
     }
