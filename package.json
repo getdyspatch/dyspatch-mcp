@@ -1,6 +1,6 @@
 {
   "name": "dyspatch-mcp",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "MCP server for the Dyspatch API for www.dyspatch.io",
   "type": "module",
   "main": "dist/index.js",
@@ -28,7 +28,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:integration": "vitest run --config vitest.config.integration.ts"
+    "test:integration": "vitest run --config vitest.config.integration.ts",
+    "build:mcpb": "node scripts/build-mcpb.mjs",
+    "pack:mcpb": "pnpm build:mcpb && node scripts/pack-mcpb.mjs"
   },
   "repository": {
     "type": "git",
@@ -43,6 +45,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.19.15",
+    "esbuild": "^0.28.0",
     "msw": "^2.12.14",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",

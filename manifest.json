@@ -1,0 +1,48 @@
+{
+  "manifest_version": "0.3",
+  "name": "dyspatch-mcp",
+  "display_name": "Dyspatch",
+  "version": "0.0.8",
+  "description": "MCP server for the Dyspatch API — manage email, SMS, push, voice, and live activity templates, drafts, localizations, and renders.",
+  "author": {
+    "name": "Dyspatch",
+    "url": "https://www.dyspatch.io"
+  },
+  "homepage": "https://github.com/getdyspatch/dyspatch-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getdyspatch/dyspatch-mcp"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "dyspatch",
+    "email",
+    "templates",
+    "messaging"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "mcpb-dist/server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/mcpb-dist/server.js"],
+      "env": {
+        "DYSPATCH_API_KEY": "${user_config.dyspatch_api_key}"
+      }
+    }
+  },
+  "user_config": {
+    "dyspatch_api_key": {
+      "type": "string",
+      "title": "Dyspatch API Key",
+      "description": "Bearer token for the Dyspatch API. Create one at https://app.dyspatch.io under Settings → API Keys.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "compatibility": {
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  }
+}

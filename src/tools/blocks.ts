@@ -21,6 +21,12 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       name: 'list_blocks',
       description: 'List all reusable content blocks. Returns paginated results.',
       inputSchema: listBlocksSchema,
+      annotations: {
+        title: 'List Blocks',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { cursor } = listBlocksSchema.parse(args)
         return client.get('/blocks', { cursor })
@@ -30,6 +36,12 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       name: 'get_block',
       description: 'Get a single reusable content block by ID.',
       inputSchema: getBlockSchema,
+      annotations: {
+        title: 'Get Block',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { blockId } = getBlockSchema.parse(args)
         return client.get(`/blocks/${blockId}`)
@@ -39,6 +51,12 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       name: 'list_block_localizations',
       description: 'List all localizations attached to a reusable content block.',
       inputSchema: getBlockSchema,
+      annotations: {
+        title: 'List Block Localizations',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { blockId } = getBlockSchema.parse(args)
         return client.get(`/blocks/${blockId}/localizations`)
@@ -49,6 +67,12 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       description:
         'Get all translatable string keys defined in a block. Use this to discover what keys are available before calling set_block_translations.',
       inputSchema: getBlockSchema,
+      annotations: {
+        title: 'Get Block Localization Keys',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { blockId } = getBlockSchema.parse(args)
         return client.get(`/blocks/${blockId}/localizationKeys`)
@@ -60,6 +84,13 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       inputSchema: blockLocalizationRefSchema.extend({
         name: z.string().describe('Display name for the localization'),
       }),
+      annotations: {
+        title: 'Upsert Block Localization',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const schema = blockLocalizationRefSchema.extend({
           name: z.string().describe('Display name for the localization'),
@@ -72,6 +103,13 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       name: 'delete_block_localization',
       description: 'Delete a localization from a block.',
       inputSchema: blockLocalizationRefSchema,
+      annotations: {
+        title: 'Delete Block Localization',
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { blockId, languageId } = blockLocalizationRefSchema.parse(args)
         return client.delete(`/blocks/${blockId}/localizations/${languageId}`)
@@ -86,6 +124,13 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
           .record(z.string())
           .describe('Key/value map of translation strings to set (replaces all existing translations)'),
       }),
+      annotations: {
+        title: 'Set Block Translations',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const schema = blockLocalizationRefSchema.extend({
           translations: z.record(z.string()).describe('Key/value map of translation strings'),

@@ -1,6 +1,8 @@
 
 node_modules/
 dist/
+mcpb-dist/
+*.mcpb
 vault/
 .env
 .claude/worktrees

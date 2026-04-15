@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import {
   CallToolRequestSchema,
@@ -6,6 +9,9 @@ import {
 import { z } from 'zod'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { createClient } from './client.js'
+
+const pkgPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'package.json')
+const { version: pkgVersion } = JSON.parse(readFileSync(pkgPath, 'utf8')) as { version: string }
 import { templateTools } from './tools/templates.js'
 import { draftTools } from './tools/drafts.js'
 import { localizationTools } from './tools/localizations.js'
@@ -13,10 +19,19 @@ import { blockTools } from './tools/blocks.js'
 import { workspaceTools } from './tools/workspaces.js'
 import { tagTools } from './tools/tags.js'
 
+export interface ToolAnnotations {
+  title?: string
+  readOnlyHint?: boolean
+  destructiveHint?: boolean
+  idempotentHint?: boolean
+  openWorldHint?: boolean
+}
+
 export interface ToolDefinition {
   name: string
   description: string
   inputSchema: z.ZodType
+  annotations?: ToolAnnotations
   handler(args: unknown): Promise<unknown>
 }
 
@@ -62,7 +77,7 @@ export function createMcpServer(): Server {
   const toolMap = new Map<string, ToolDefinition>(allTools.map((t) => [t.name, t]))
 
   const server = new Server(
-    { name: 'dyspatch', version: '1.0.0' },
+    { name: 'dyspatch', version: pkgVersion },
     { capabilities: { tools: {} } },
   )
 
@@ -71,6 +86,7 @@ export function createMcpServer(): Server {
       name: t.name,
       description: t.description,
       inputSchema: zodToJsonSchema(t.inputSchema),
+      ...(t.annotations ? { annotations: t.annotations } : {}),
     })),
   }))
 

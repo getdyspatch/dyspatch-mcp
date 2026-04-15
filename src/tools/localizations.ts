@@ -37,6 +37,12 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       name: 'list_draft_localizations',
       description: 'List all localizations attached to a draft.',
       inputSchema: typeAndDraft,
+      annotations: {
+        title: 'List Draft Localizations',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, draftId } = typeAndDraft.parse(args)
         const prefix = typePath(type)
@@ -47,6 +53,12 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       name: 'get_localization',
       description: 'Get a published localization including its compiled revision.',
       inputSchema: getLocalizationSchema,
+      annotations: {
+        title: 'Get Localization',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, localizationId, targetLanguage, themeId } = getLocalizationSchema.parse(args)
         const prefix = typePath(type)
@@ -58,6 +70,13 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       description:
         'Create or update a localization on a draft for a given language. Use a BCP-47 language tag as languageId (e.g. en-US).',
       inputSchema: upsertLocalizationSchema,
+      annotations: {
+        title: 'Upsert Localization',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, draftId, languageId, name } = upsertLocalizationSchema.parse(args)
         const prefix = typePath(type)
@@ -68,6 +87,13 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       name: 'delete_localization',
       description: 'Delete a localization from a draft.',
       inputSchema: localizationRefSchema,
+      annotations: {
+        title: 'Delete Localization',
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, draftId, languageId } = localizationRefSchema.parse(args)
         const prefix = typePath(type)
@@ -79,6 +105,13 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       description:
         'Replace all translations for a localization on a draft. The translations object is a flat key/value map of string keys to translated strings.',
       inputSchema: setTranslationsSchema,
+      annotations: {
+        title: 'Set Translations',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, draftId, languageId, translations } = setTranslationsSchema.parse(args)
         const prefix = typePath(type)

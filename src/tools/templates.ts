@@ -38,6 +38,12 @@ export function templateTools(client: DyspatchClient): ToolDefinition[] {
       description:
         'List published templates of a given channel type (email, sms, push, voice, or liveactivity). Returns paginated results.',
       inputSchema: listTemplatesSchema,
+      annotations: {
+        title: 'List Templates',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, cursor } = listTemplatesSchema.parse(args)
         const prefix = typePath(type)
@@ -49,6 +55,12 @@ export function templateTools(client: DyspatchClient): ToolDefinition[] {
       description:
         'Get a single template including its compiled revision (subject, HTML, text, variables, etc.).',
       inputSchema: getTemplateSchema,
+      annotations: {
+        title: 'Get Template',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, templateId, targetLanguage, themeId } = getTemplateSchema.parse(args)
         const prefix = typePath(type)
@@ -60,6 +72,12 @@ export function templateTools(client: DyspatchClient): ToolDefinition[] {
       description:
         'Render a published template with provided variables. Returns compiled HTML/text output. Optionally render for a specific language or theme.',
       inputSchema: renderTemplateSchema,
+      annotations: {
+        title: 'Render Template',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, templateId, languageId, variables, themeId } = renderTemplateSchema.parse(args)
         const prefix = typePath(type)

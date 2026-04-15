@@ -51,6 +51,12 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       name: 'list_tags',
       description: 'List all tags, optionally filtered by type or workspace.',
       inputSchema: listTagsSchema,
+      annotations: {
+        title: 'List Tags',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { type, workspaceId, cursor } = listTagsSchema.parse(args)
         return client.get('/tags', { type, workspaceId, cursor })
@@ -60,6 +66,13 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       name: 'create_tag',
       description: 'Create a new tag that can be assigned to templates, drafts, or blocks.',
       inputSchema: createTagSchema,
+      annotations: {
+        title: 'Create Tag',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { name, types, workspaceIds } = createTagSchema.parse(args)
         return client.post('/tags/create', { name, types, workspaceIds: workspaceIds ?? [] })
@@ -69,6 +82,13 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       name: 'assign_tag',
       description: 'Assign a tag to a resource (template, draft, or block).',
       inputSchema: assignTagSchema,
+      annotations: {
+        title: 'Assign Tag',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { tagId, resourceId } = assignTagSchema.parse(args)
         return client.put(`/tags/assign/${resourceId}`, { tagIds: [tagId] })
@@ -78,6 +98,12 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       name: 'get_tag',
       description: 'Get a single tag by ID.',
       inputSchema: tagIdSchema,
+      annotations: {
+        title: 'Get Tag',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { tagId } = tagIdSchema.parse(args)
         return client.get(`/tags/${tagId}`)
@@ -87,6 +113,13 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       name: 'update_tag',
       description: 'Update an existing tag (name, types, workspace scope, or status).',
       inputSchema: updateTagSchema,
+      annotations: {
+        title: 'Update Tag',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { tagId, name, types, workspaceIds, status } = updateTagSchema.parse(args)
         return client.patch(`/tags/update/${tagId}`, { name, types, workspaceIds, status })
@@ -96,6 +129,13 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       name: 'delete_tag',
       description: 'Permanently delete a tag.',
       inputSchema: tagIdSchema,
+      annotations: {
+        title: 'Delete Tag',
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { tagId } = tagIdSchema.parse(args)
         return client.delete(`/tags/delete/${tagId}`)
@@ -105,6 +145,13 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       name: 'unassign_tag',
       description: 'Remove one or more tags from a resource (template, draft, or block).',
       inputSchema: unassignTagSchema,
+      annotations: {
+        title: 'Unassign Tag',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       async handler(args) {
         const { tagIds, resourceId } = unassignTagSchema.parse(args)
         return Promise.all(
