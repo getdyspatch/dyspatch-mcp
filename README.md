@@ -91,7 +91,6 @@ Start the server as above, then configure your client to connect to `http://loca
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `DYSPATCH_API_KEY` | Yes | — | API key from your Dyspatch account settings |
-| `DYSPATCH_API_VERSION` | No | `2026.01` | Override the API version |
 | `PORT` | No | `3000` | HTTP listen port (HTTP transport only) |
 
 ## Available Tools

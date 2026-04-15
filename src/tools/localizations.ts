@@ -73,7 +73,7 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Upsert Localization',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },
@@ -108,7 +108,7 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Set Translations',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },

@@ -20,6 +20,7 @@
     "templates",
     "messaging"
   ],
+  "tools_generated": true,
   "server": {
     "type": "node",
     "entry_point": "mcpb-dist/server.js",

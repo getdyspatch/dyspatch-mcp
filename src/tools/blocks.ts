@@ -87,7 +87,7 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Upsert Block Localization',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },
@@ -127,7 +127,7 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Set Block Translations',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },

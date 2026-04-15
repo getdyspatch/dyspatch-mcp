@@ -30,7 +30,7 @@ const describeWithTestBlock = testBlockId ? describe : describe.skip
 describe.skipIf(!apiKey || !workspaceId)('MCP tools — comprehensive integration', () => {
   // Use DyspatchClient directly (createClient() would throw when apiKey is undefined,
   // even inside a skipped describe, since the callback body is still evaluated)
-  const client = new DyspatchClient(apiKey!, process.env.DYSPATCH_API_VERSION ?? '2026.01')
+  const client = new DyspatchClient(apiKey!)
 
   const tmplTools = templateTools(client)
   const drftTools = draftTools(client)

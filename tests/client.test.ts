@@ -6,8 +6,8 @@ import { DyspatchClient, DyspatchError } from '../src/client.js'
 const API_KEY = 'test-api-key'
 const BASE = 'https://api.dyspatch.io'
 
-function makeClient(version?: string) {
-  return new DyspatchClient(API_KEY, version)
+function makeClient() {
+  return new DyspatchClient(API_KEY)
 }
 
 describe('DyspatchClient', () => {
@@ -24,7 +24,7 @@ describe('DyspatchClient', () => {
       expect(capturedAuth).toBe(`Bearer ${API_KEY}`)
     })
 
-    it('sends Accept header with default version', async () => {
+    it('sends Accept header with pinned API version', async () => {
       let capturedAccept: string | null = null
       mswServer.use(
         http.get(`${BASE}/test`, ({ request }) => {
@@ -34,18 +34,6 @@ describe('DyspatchClient', () => {
       )
       await makeClient().get('/test')
       expect(capturedAccept).toBe('application/vnd.dyspatch.2026.01+json')
-    })
-
-    it('sends Accept header with custom version', async () => {
-      let capturedAccept: string | null = null
-      mswServer.use(
-        http.get(`${BASE}/test`, ({ request }) => {
-          capturedAccept = request.headers.get('accept')
-          return HttpResponse.json({})
-        }),
-      )
-      await makeClient('2025.05').get('/test')
-      expect(capturedAccept).toBe('application/vnd.dyspatch.2025.05+json')
     })
   })
 

@@ -1,4 +1,6 @@
 const BASE_URL = 'https://api.dyspatch.io'
+const DYSPATCH_API_VERSION = '2026.01'
+const REQUEST_TIMEOUT_MS = 30_000
 
 export class DyspatchError extends Error {
   constructor(
@@ -14,24 +16,31 @@ export class DyspatchError extends Error {
 
 export class DyspatchClient {
   private readonly apiKey: string
-  private readonly version: string
 
-  constructor(apiKey: string, version = '2026.01') {
+  constructor(apiKey: string) {
     this.apiKey = apiKey
-    this.version = version
   }
 
   private async request<T>(path: string, opts: RequestInit = {}): Promise<T> {
     const url = `${BASE_URL}${path}`
-    const res = await fetch(url, {
-      ...opts,
-      headers: {
-        Authorization: `Bearer ${this.apiKey}`,
-        Accept: `application/vnd.dyspatch.${this.version}+json`,
-        'Content-Type': 'application/json',
-        ...opts.headers,
-      },
-    })
+    let res: Response
+    try {
+      res = await fetch(url, {
+        ...opts,
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          Accept: `application/vnd.dyspatch.${DYSPATCH_API_VERSION}+json`,
+          'Content-Type': 'application/json',
+          ...opts.headers,
+        },
+      })
+    } catch (err) {
+      if (err instanceof DOMException && err.name === 'TimeoutError') {
+        throw new DyspatchError('timeout', `Request timed out after ${REQUEST_TIMEOUT_MS}ms`)
+      }
+      throw err
+    }
 
     if (!res.ok) {
       let code = 'server_error'
@@ -107,6 +116,5 @@ export function typePath(type: string): string {
 export function createClient(): DyspatchClient {
   const apiKey = process.env.DYSPATCH_API_KEY
   if (!apiKey) throw new Error('DYSPATCH_API_KEY environment variable is required')
-  const version = process.env.DYSPATCH_API_VERSION ?? '2026.01'
-  return new DyspatchClient(apiKey, version)
+  return new DyspatchClient(apiKey)
 }

@@ -10,8 +10,16 @@ import { z } from 'zod'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { createClient } from './client.js'
 
-const pkgPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'package.json')
-const { version: pkgVersion } = JSON.parse(readFileSync(pkgPath, 'utf8')) as { version: string }
+declare const __PKG_VERSION__: string | undefined
+const pkgVersion: string =
+  typeof __PKG_VERSION__ !== 'undefined'
+    ? __PKG_VERSION__
+    : (JSON.parse(
+        readFileSync(
+          join(dirname(fileURLToPath(import.meta.url)), '..', 'package.json'),
+          'utf8',
+        ),
+      ) as { version: string }).version
 import { templateTools } from './tools/templates.js'
 import { draftTools } from './tools/drafts.js'
 import { localizationTools } from './tools/localizations.js'

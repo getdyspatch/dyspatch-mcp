@@ -69,7 +69,7 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Create Tag',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: false,
         openWorldHint: true,
       },
@@ -85,7 +85,7 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Assign Tag',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },
@@ -116,7 +116,7 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Update Tag',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },
@@ -148,7 +148,7 @@ export function tagTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Unassign Tag',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },

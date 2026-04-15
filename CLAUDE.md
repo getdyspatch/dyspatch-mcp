@@ -19,7 +19,6 @@ pnpm test:integration   # run integration tests (requires DYSPATCH_API_KEY)
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `DYSPATCH_API_KEY` | Yes | — | Dyspatch API bearer token |
-| `DYSPATCH_API_VERSION` | No | `2026.01` | API version header value |
 | `PORT` | No | `3000` | HTTP listen port (HTTP mode only) |
 
 ## Architecture

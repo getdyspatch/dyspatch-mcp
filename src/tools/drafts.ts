@@ -77,7 +77,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Submit Draft for Approval',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: false,
         openWorldHint: true,
       },
@@ -94,7 +94,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Approve Draft',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: false,
         openWorldHint: true,
       },
@@ -111,7 +111,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Approve All Localizations',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: false,
         openWorldHint: true,
       },
@@ -128,7 +128,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Reject Draft',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: false,
         openWorldHint: true,
       },
@@ -145,7 +145,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Duplicate Draft',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: false,
         openWorldHint: true,
       },
@@ -179,7 +179,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Lock Draft for Translation',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },
@@ -196,7 +196,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
       annotations: {
         title: 'Unlock Draft for Translation',
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: true,
       },

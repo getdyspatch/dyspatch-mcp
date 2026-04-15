@@ -11,6 +11,8 @@ export { handleCallTool } from './server.js'
 // realpathSync resolves npx symlinks so the check works with bin entries
 const isMain = realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)
 if (isMain) {
+  const server = createMcpServer()
   const transport = new StdioServerTransport()
-  await createMcpServer().connect(transport)
+  console.error('[dyspatch-mcp] ready (stdio)')
+  await server.connect(transport)
 }

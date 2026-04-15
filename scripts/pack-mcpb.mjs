@@ -5,6 +5,14 @@ import { spawnSync } from 'node:child_process'
 const manifest = JSON.parse(readFileSync('manifest.json', 'utf8'))
 const output = `dyspatch-mcp-${manifest.version}.mcpb`
 
+const validate = spawnSync('npx', ['@anthropic-ai/mcpb', 'validate', 'manifest.json'], {
+  stdio: 'inherit',
+})
+if (validate.status !== 0) {
+  console.error('manifest.json failed validation')
+  process.exit(validate.status ?? 1)
+}
+
 const result = spawnSync('npx', ['@anthropic-ai/mcpb', 'pack', '.', output], {
   stdio: 'inherit',
 })
