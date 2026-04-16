@@ -214,6 +214,12 @@ If `DYSPATCH_API_KEY` is already set in your shell (e.g. via `source .env`), ref
 
 Verify the server is registered with `/mcp` in Claude Code.
 
+## Privacy
+
+This MCP server makes authenticated requests to the Dyspatch API (`https://api.dyspatch.io`) using the API key you provide. Request and response payloads are passed through to your AI client and are **not** inspected, stored, or logged by this server.
+
+Dyspatch collects aggregate usage metadata about API calls — endpoint, timestamp, account identifiers — for usage tracking and analytics. Dyspatch does **not** inspect or log the contents of your API request or response bodies. See the [Dyspatch Privacy Policy](https://www.dyspatch.io/privacy-policy/) for full details.
+
 ## Notes
 
 **Email compiled content is base64-encoded.** The `subject`, `html`, `ampHtml`, and `text` fields returned by `get_template` and `get_draft` are base64-encoded. Use `render_template` to get decoded output with variables substituted.

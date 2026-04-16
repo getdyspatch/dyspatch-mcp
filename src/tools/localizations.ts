@@ -2,33 +2,41 @@ import { z } from 'zod'
 import type { DyspatchClient } from '../client.js'
 import { typePath } from '../client.js'
 import type { ToolDefinition } from '../index.js'
-
-const TemplateType = z.enum(['email', 'sms', 'push', 'voice', 'liveactivity'])
+import {
+  TargetLanguage,
+  LANGUAGE_ID_DESCRIPTION,
+  LOCALIZATION_NAME_DESCRIPTION,
+  TARGET_LANGUAGE_DESCRIPTION,
+  TEMPLATE_TYPE_DESCRIPTION,
+  THEME_ID_DESCRIPTION,
+  TRANSLATIONS_DESCRIPTION,
+  TemplateType,
+} from '../constants.js'
 
 const typeAndDraft = z.object({
-  type: TemplateType.describe('Template channel type'),
+  type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
   draftId: z.string().describe('Draft ID'),
 })
 
 const localizationRefSchema = typeAndDraft.extend({
-  languageId: z.string().describe('Language ID (e.g. en-US, fr-FR)'),
+  languageId: z.string().describe(LANGUAGE_ID_DESCRIPTION),
 })
 
 const getLocalizationSchema = z.object({
-  type: TemplateType.describe('Template channel type'),
+  type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
   localizationId: z.string().describe('Localization ID'),
-  targetLanguage: z.string().optional().describe('Target language for compiled output (e.g. html, handlebars, liquid). Required for visual templates — omit only for code-based templates.'),
-  themeId: z.string().optional().describe('Theme ID to use when compiling'),
+  targetLanguage: TargetLanguage.describe(TARGET_LANGUAGE_DESCRIPTION),
+  themeId: z.string().optional().describe(THEME_ID_DESCRIPTION),
 })
 
 const upsertLocalizationSchema = localizationRefSchema.extend({
-  name: z.string().describe('Display name for the localization'),
+  name: z.string().describe(LOCALIZATION_NAME_DESCRIPTION),
 })
 
 const setTranslationsSchema = localizationRefSchema.extend({
   translations: z
     .record(z.string())
-    .describe('Key/value map of translation strings to set (replaces all existing translations)'),
+    .describe(TRANSLATIONS_DESCRIPTION),
 })
 
 export function localizationTools(client: DyspatchClient): ToolDefinition[] {
@@ -68,7 +76,7 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
     {
       name: 'upsert_localization',
       description:
-        'Create or update a localization on a draft for a given language. Use a BCP-47 language tag as languageId (e.g. en-US).',
+        'Create or update a localization on a draft for a given language.',
       inputSchema: upsertLocalizationSchema,
       annotations: {
         title: 'Upsert Localization',

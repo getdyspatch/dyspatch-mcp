@@ -2,33 +2,40 @@ import { z } from 'zod'
 import type { DyspatchClient } from '../client.js'
 import { typePath } from '../client.js'
 import type { ToolDefinition } from '../index.js'
+import {
+  TargetLanguage,
+  CURSOR_DESCRIPTION,
+  LANGUAGE_ID_DESCRIPTION,
+  TARGET_LANGUAGE_DESCRIPTION,
+  TEMPLATE_TYPE_DESCRIPTION,
+  THEME_ID_DESCRIPTION,
+  TemplateType,
+} from '../constants.js'
 
-const TemplateType = z.enum(['email', 'sms', 'push', 'voice', 'liveactivity'])
 
 const listTemplatesSchema = z.object({
-  type: TemplateType.describe('Template channel type'),
-  cursor: z.string().optional().describe('Pagination cursor from a previous response'),
+  type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
+  cursor: z.string().optional().describe(CURSOR_DESCRIPTION),
 })
 
 const getTemplateSchema = z.object({
-  type: TemplateType.describe('Template channel type'),
+  type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
   templateId: z.string().describe('Template ID (e.g. tem_xxxx)'),
-  targetLanguage: z
-    .string()
-    .optional()
-    .describe('Target language for compiled output (e.g. html, handlebars, liquid). Required for visual templates — omit only for code-based templates.'),
-  themeId: z.string().optional().describe('Theme ID to use when compiling the template'),
+  targetLanguage: TargetLanguage.describe(TARGET_LANGUAGE_DESCRIPTION),
+  themeId: z.string().optional().describe(THEME_ID_DESCRIPTION),
 })
 
 const renderTemplateSchema = z.object({
-  type: TemplateType.describe('Template channel type'),
+  type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
   templateId: z.string().describe('Template ID'),
-  languageId: z.string().optional().describe('Language ID for localized render (e.g. en-US)'),
+  languageId: z.string().optional().describe(LANGUAGE_ID_DESCRIPTION),
   variables: z
     .record(z.unknown())
     .optional()
-    .describe('Key/value object of template variables'),
-  themeId: z.string().optional().describe('Theme ID to use when rendering'),
+    .describe(
+      'JSON object of template variables. Values can be strings, numbers, booleans, nested objects, or arrays — preserve the original structure, do not flatten.',
+    ),
+  themeId: z.string().optional().describe(THEME_ID_DESCRIPTION),
 })
 
 export function templateTools(client: DyspatchClient): ToolDefinition[] {

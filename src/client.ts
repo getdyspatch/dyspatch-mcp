@@ -1,6 +1,12 @@
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
+const { version: MCP_VERSION } = require('../package.json') as { version: string }
+
 const BASE_URL = 'https://api.dyspatch.io'
 const DYSPATCH_API_VERSION = '2026.01'
 const REQUEST_TIMEOUT_MS = 30_000
+const USER_AGENT = `dyspatch-mcp-${MCP_VERSION}`
 
 export class DyspatchError extends Error {
   constructor(
@@ -32,6 +38,7 @@ export class DyspatchClient {
           Authorization: `Bearer ${this.apiKey}`,
           Accept: `application/vnd.dyspatch.${DYSPATCH_API_VERSION}+json`,
           'Content-Type': 'application/json',
+          'User-Agent': USER_AGENT,
           ...opts.headers,
         },
       })

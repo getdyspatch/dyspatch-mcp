@@ -2,11 +2,17 @@ import { z } from 'zod'
 import type { DyspatchClient } from '../client.js'
 import { typePath } from '../client.js'
 import type { ToolDefinition } from '../index.js'
-
-const TemplateType = z.enum(['email', 'sms', 'push', 'voice', 'liveactivity'])
+import {
+  TargetLanguage,
+  CURSOR_DESCRIPTION,
+  TARGET_LANGUAGE_DESCRIPTION,
+  TEMPLATE_TYPE_DESCRIPTION,
+  THEME_ID_DESCRIPTION,
+  TemplateType,
+} from '../constants.js'
 
 const typeAndDraft = z.object({
-  type: TemplateType.describe('Template channel type'),
+  type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
   draftId: z.string().describe('Draft ID (e.g. tdft_xxxx)'),
 })
 
@@ -15,8 +21,8 @@ const typeAndDraftWithFeedback = typeAndDraft.extend({
 })
 
 const listDraftsSchema = z.object({
-  type: TemplateType.describe('Template channel type'),
-  cursor: z.string().optional().describe('Pagination cursor'),
+  type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
+  cursor: z.string().optional().describe(CURSOR_DESCRIPTION),
   status: z
     .enum(['IN_PROGRESS', 'PENDING_APPROVAL', 'LOCKED_FOR_TRANSLATION'])
     .optional()
@@ -24,11 +30,8 @@ const listDraftsSchema = z.object({
 })
 
 const getDraftSchema = typeAndDraft.extend({
-  targetLanguage: z
-    .string()
-    .optional()
-    .describe('Target language for compiled output (e.g. html, handlebars, liquid). Required for visual templates — omit only for code-based templates.'),
-  themeId: z.string().optional().describe('Theme ID to use when compiling the draft'),
+  targetLanguage: TargetLanguage.describe(TARGET_LANGUAGE_DESCRIPTION),
+  themeId: z.string().optional().describe(THEME_ID_DESCRIPTION),
 })
 
 const duplicateDraftSchema = typeAndDraft.extend({

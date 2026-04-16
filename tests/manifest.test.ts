@@ -39,6 +39,15 @@ describe('MCPB manifest.json', () => {
     expect(compatibility.runtimes.node).toMatch(/^>=/)
   })
 
+  it('declares a privacy policy URL (required for servers calling external APIs)', () => {
+    const policies = manifest.privacy_policies as string[]
+    expect(Array.isArray(policies)).toBe(true)
+    expect(policies.length).toBeGreaterThan(0)
+    for (const url of policies) {
+      expect(url).toMatch(/^https:\/\//)
+    }
+  })
+
   it('keeps the manifest version in sync with package.json', () => {
     const pkg = JSON.parse(
       readFileSync(join(import.meta.dirname, '..', 'package.json'), 'utf8'),

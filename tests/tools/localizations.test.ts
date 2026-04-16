@@ -43,23 +43,23 @@ describe('get_localization', () => {
   })
 
   it('GET /localizations/{localizationId}', async () => {
-    await ctx.get('get_localization').handler({ type: 'email', localizationId: 'loc_abc' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/localizations/loc_abc', { targetLanguage: undefined, themeId: undefined })
-  })
-
-  it('uses channel prefix for push', async () => {
-    await ctx.get('get_localization').handler({ type: 'push', localizationId: 'loc_xyz' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/push/localizations/loc_xyz', { targetLanguage: undefined, themeId: undefined })
-  })
-
-  it('forwards targetLanguage as query param', async () => {
     await ctx.get('get_localization').handler({ type: 'email', localizationId: 'loc_abc', targetLanguage: 'html' })
     expect(ctx.client.get).toHaveBeenCalledWith('/localizations/loc_abc', { targetLanguage: 'html', themeId: undefined })
   })
 
+  it('uses channel prefix for push', async () => {
+    await ctx.get('get_localization').handler({ type: 'push', localizationId: 'loc_xyz', targetLanguage: 'html' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/push/localizations/loc_xyz', { targetLanguage: 'html', themeId: undefined })
+  })
+
+  it('forwards targetLanguage as query param', async () => {
+    await ctx.get('get_localization').handler({ type: 'email', localizationId: 'loc_abc', targetLanguage: 'handlebars' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/localizations/loc_abc', { targetLanguage: 'handlebars', themeId: undefined })
+  })
+
   it('forwards themeId as query param', async () => {
-    await ctx.get('get_localization').handler({ type: 'email', localizationId: 'loc_abc', themeId: 'thm_1' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/localizations/loc_abc', { targetLanguage: undefined, themeId: 'thm_1' })
+    await ctx.get('get_localization').handler({ type: 'email', localizationId: 'loc_abc', targetLanguage: 'html', themeId: 'thm_1' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/localizations/loc_abc', { targetLanguage: 'html', themeId: 'thm_1' })
   })
 
   it('throws on missing localizationId', async () => {

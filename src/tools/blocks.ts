@@ -1,9 +1,15 @@
 import { z } from 'zod'
 import type { DyspatchClient } from '../client.js'
 import type { ToolDefinition } from '../index.js'
+import {
+  CURSOR_DESCRIPTION,
+  LANGUAGE_ID_DESCRIPTION,
+  LOCALIZATION_NAME_DESCRIPTION,
+  TRANSLATIONS_DESCRIPTION,
+} from '../constants.js'
 
 const listBlocksSchema = z.object({
-  cursor: z.string().optional().describe('Pagination cursor from a previous response'),
+  cursor: z.string().optional().describe(CURSOR_DESCRIPTION),
 })
 
 const getBlockSchema = z.object({
@@ -12,7 +18,7 @@ const getBlockSchema = z.object({
 
 const blockLocalizationRefSchema = z.object({
   blockId: z.string().describe('Block ID (e.g. blo_xxxx)'),
-  languageId: z.string().describe('Language ID (e.g. en-US, fr-FR)'),
+  languageId: z.string().describe(LANGUAGE_ID_DESCRIPTION),
 })
 
 export function blockTools(client: DyspatchClient): ToolDefinition[] {
@@ -82,7 +88,7 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       name: 'upsert_block_localization',
       description: 'Create or update a localization on a block for a given language.',
       inputSchema: blockLocalizationRefSchema.extend({
-        name: z.string().describe('Display name for the localization'),
+        name: z.string().describe(LOCALIZATION_NAME_DESCRIPTION),
       }),
       annotations: {
         title: 'Upsert Block Localization',
@@ -93,7 +99,7 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       },
       async handler(args) {
         const schema = blockLocalizationRefSchema.extend({
-          name: z.string().describe('Display name for the localization'),
+          name: z.string().describe(LOCALIZATION_NAME_DESCRIPTION),
         })
         const { blockId, languageId, name } = schema.parse(args)
         return client.put(`/blocks/${blockId}/localizations/${languageId}`, { name })
@@ -122,7 +128,7 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       inputSchema: blockLocalizationRefSchema.extend({
         translations: z
           .record(z.string())
-          .describe('Key/value map of translation strings to set (replaces all existing translations)'),
+          .describe(TRANSLATIONS_DESCRIPTION),
       }),
       annotations: {
         title: 'Set Block Translations',
@@ -133,7 +139,7 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       },
       async handler(args) {
         const schema = blockLocalizationRefSchema.extend({
-          translations: z.record(z.string()).describe('Key/value map of translation strings'),
+          translations: z.record(z.string()).describe(TRANSLATIONS_DESCRIPTION),
         })
         const { blockId, languageId, translations } = schema.parse(args)
         return client.put(`/blocks/${blockId}/localizations/${languageId}/translations`, translations)

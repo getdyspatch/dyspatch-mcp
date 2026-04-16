@@ -52,9 +52,9 @@ describe('get_draft', () => {
   })
 
   it('GET /drafts/{id}', async () => {
-    await ctx.get('get_draft').handler(BASE_ARGS)
+    await ctx.get('get_draft').handler({ ...BASE_ARGS, targetLanguage: 'html' })
     expect(ctx.client.get).toHaveBeenCalledWith('/drafts/tdft_123', {
-      targetLanguage: undefined,
+      targetLanguage: 'html',
       themeId: undefined,
     })
   })
@@ -68,7 +68,7 @@ describe('get_draft', () => {
   })
 
   it('uses channel prefix for push', async () => {
-    await ctx.get('get_draft').handler({ type: 'push', draftId: 'tdft_abc' })
+    await ctx.get('get_draft').handler({ type: 'push', draftId: 'tdft_abc', targetLanguage: 'html' })
     expect(ctx.client.get).toHaveBeenCalledWith('/push/drafts/tdft_abc', expect.any(Object))
   })
 })

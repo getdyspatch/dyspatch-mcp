@@ -1,13 +1,12 @@
 import { z } from 'zod'
 import type { DyspatchClient } from '../client.js'
 import type { ToolDefinition } from '../index.js'
-
-const TagType = z.enum(['template', 'draft', 'block'])
+import { TagType, CURSOR_DESCRIPTION } from '../constants.js'
 
 const listTagsSchema = z.object({
   type: TagType.optional().describe('Filter tags by resource type'),
   workspaceId: z.string().optional().describe('Filter tags by workspace ID'),
-  cursor: z.string().optional().describe('Pagination cursor'),
+  cursor: z.string().optional().describe(CURSOR_DESCRIPTION),
 })
 
 const createTagSchema = z.object({
@@ -33,7 +32,7 @@ const tagIdSchema = z.object({
 const updateTagSchema = tagIdSchema.extend({
   name: z.string().optional().describe('New tag name'),
   types: z
-    .array(z.enum(['template', 'draft', 'block']))
+    .array(TagType)
     .optional()
     .describe('Resource types this tag applies to'),
   workspaceIds: z.array(z.string()).optional().describe('Workspace IDs to scope this tag to'),

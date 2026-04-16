@@ -1,9 +1,10 @@
 import { z } from 'zod'
 import type { DyspatchClient } from '../client.js'
 import type { ToolDefinition } from '../index.js'
+import { CURSOR_DESCRIPTION } from '../constants.js'
 
 const listWorkspacesSchema = z.object({
-  cursor: z.string().optional().describe('Pagination cursor from a previous response'),
+  cursor: z.string().optional().describe(CURSOR_DESCRIPTION),
 })
 
 const getFolderSchema = z.object({

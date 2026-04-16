@@ -64,23 +64,23 @@ describe('get_template', () => {
   })
 
   it('GET /templates/{id} for email', async () => {
-    await ctx.get('get_template').handler({ type: 'email', templateId: 'tem_abc' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/templates/tem_abc', { targetLanguage: undefined, themeId: undefined })
-  })
-
-  it('GET /sms/templates/{id} for sms', async () => {
-    await ctx.get('get_template').handler({ type: 'sms', templateId: 'tem_xyz' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/sms/templates/tem_xyz', { targetLanguage: undefined, themeId: undefined })
-  })
-
-  it('forwards targetLanguage as query param', async () => {
     await ctx.get('get_template').handler({ type: 'email', templateId: 'tem_abc', targetLanguage: 'html' })
     expect(ctx.client.get).toHaveBeenCalledWith('/templates/tem_abc', { targetLanguage: 'html', themeId: undefined })
   })
 
+  it('GET /sms/templates/{id} for sms', async () => {
+    await ctx.get('get_template').handler({ type: 'sms', templateId: 'tem_xyz', targetLanguage: 'html' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/sms/templates/tem_xyz', { targetLanguage: 'html', themeId: undefined })
+  })
+
+  it('forwards targetLanguage as query param', async () => {
+    await ctx.get('get_template').handler({ type: 'email', templateId: 'tem_abc', targetLanguage: 'handlebars' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/templates/tem_abc', { targetLanguage: 'handlebars', themeId: undefined })
+  })
+
   it('forwards themeId as query param', async () => {
-    await ctx.get('get_template').handler({ type: 'email', templateId: 'tem_abc', themeId: 'thm_1' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/templates/tem_abc', { targetLanguage: undefined, themeId: 'thm_1' })
+    await ctx.get('get_template').handler({ type: 'email', templateId: 'tem_abc', targetLanguage: 'html', themeId: 'thm_1' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/templates/tem_abc', { targetLanguage: 'html', themeId: 'thm_1' })
   })
 
   it('throws on missing templateId', async () => {
