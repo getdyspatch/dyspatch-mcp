@@ -44,6 +44,7 @@
     "zod-to-json-schema": "^3.25.2"
   },
   "devDependencies": {
+    "@anthropic-ai/mcpb": "^2.1.2",
     "@types/node": "^22.19.15",
     "esbuild": "^0.28.0",
     "msw": "^2.12.14",

@@ -3,16 +3,18 @@
   "name": "dyspatch-mcp",
   "display_name": "Dyspatch",
   "version": "0.0.8",
-  "description": "MCP server for the Dyspatch API — manage email, SMS, push, voice, and live activity templates, drafts, localizations, and renders.",
+  "description": "MCP server for the Dyspatch.io API — manage email, SMS, push, voice, and live activity templates, drafts, localizations, and renders.",
   "author": {
     "name": "Dyspatch",
     "url": "https://www.dyspatch.io"
   },
   "homepage": "https://github.com/getdyspatch/dyspatch-mcp",
+  "support": "https://docs.dyspatch.io/",
   "repository": {
     "type": "git",
     "url": "https://github.com/getdyspatch/dyspatch-mcp"
   },
+  "icon": "icon.png",
   "license": "Apache-2.0",
   "privacy_policies": [
     "https://www.dyspatch.io/privacy-policy/"
