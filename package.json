@@ -20,6 +20,7 @@
     "ai"
   ],
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "clean": "rm -rf dist && rm -rf mcpb-dist && rm *.mcpb",
     "build": "tsc",
     "dev": "tsx src/index.ts",
