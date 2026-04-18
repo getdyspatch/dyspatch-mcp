@@ -6,3 +6,4 @@ mcpb-dist/
 vault/
 .env
 .claude/worktrees
+.remember/

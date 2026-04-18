@@ -20,6 +20,7 @@
     "ai"
   ],
   "scripts": {
+    "clean": "rm -rf dist && rm -rf mcpb-dist && rm *.mcpb",
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "dev:http": "tsx src/http.ts",
