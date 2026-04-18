@@ -21,6 +21,7 @@
   ],
   "scripts": {
     "prepare": "git config core.hooksPath .githooks || true",
+    "version": "node scripts/sync-manifest-version.mjs && git add manifest.json",
     "clean": "rm -rf dist && rm -rf mcpb-dist && rm *.mcpb",
     "build": "tsc",
     "dev": "tsx src/index.ts",
