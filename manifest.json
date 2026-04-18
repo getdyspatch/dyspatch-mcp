@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "dyspatch-mcp",
   "display_name": "Dyspatch",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "MCP server for the Dyspatch.io API — manage email, SMS, push, voice, and live activity templates, drafts, localizations, and renders.",
   "author": {
     "name": "Dyspatch",
