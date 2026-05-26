@@ -122,6 +122,22 @@ export function blockTools(client: DyspatchClient): ToolDefinition[] {
       },
     },
     {
+      name: 'get_block_translations',
+      description:
+        'Get all translations for a localization on a block. Returns a flat key/value map of string keys to translated strings.',
+      inputSchema: blockLocalizationRefSchema,
+      annotations: {
+        title: 'Get Block Translations',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
+      async handler(args) {
+        const { blockId, languageId } = blockLocalizationRefSchema.parse(args)
+        return client.get(`/blocks/${blockId}/localizations/${languageId}/translations`)
+      },
+    },
+    {
       name: 'set_block_translations',
       description:
         'Replace all translations for a localization on a block. The translations object is a flat key/value map of string keys to translated strings.',

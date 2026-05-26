@@ -4,7 +4,7 @@ const require = createRequire(import.meta.url)
 const { version: MCP_VERSION } = require('../package.json') as { version: string }
 
 const BASE_URL = 'https://api.dyspatch.io'
-const DYSPATCH_API_VERSION = '2026.01'
+const DYSPATCH_API_VERSION = '2026.05.beta'
 const REQUEST_TIMEOUT_MS = 30_000
 const USER_AGENT = `dyspatch-mcp-${MCP_VERSION}`
 

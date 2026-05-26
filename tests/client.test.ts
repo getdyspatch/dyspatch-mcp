@@ -33,7 +33,7 @@ describe('DyspatchClient', () => {
         }),
       )
       await makeClient().get('/test')
-      expect(capturedAccept).toBe('application/vnd.dyspatch.2026.01+json')
+      expect(capturedAccept).toBe('application/vnd.dyspatch.2026.05.beta+json')
     })
   })
 

@@ -24,9 +24,10 @@ const listDraftsSchema = z.object({
   type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
   cursor: z.string().optional().describe(CURSOR_DESCRIPTION),
   status: z
-    .enum(['IN_PROGRESS', 'PENDING_APPROVAL', 'LOCKED_FOR_TRANSLATION'])
+    .enum(['LOCKED_FOR_TRANSLATION'])
     .optional()
-    .describe('Filter by draft status'),
+    .describe('Filter drafts to only those locked for translation'),
+  templateId: z.string().optional().describe('Filter drafts by template ID'),
 })
 
 const getDraftSchema = typeAndDraft.extend({
@@ -42,7 +43,7 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
   return [
     {
       name: 'list_drafts',
-      description: 'List all drafts for a given channel type. Returns paginated results.',
+      description: 'List all drafts for a given channel type. Optionally filter by template ID or translation lock status. Returns paginated results.',
       inputSchema: listDraftsSchema,
       annotations: {
         title: 'List Drafts',
@@ -51,9 +52,9 @@ export function draftTools(client: DyspatchClient): ToolDefinition[] {
         openWorldHint: true,
       },
       async handler(args) {
-        const { type, cursor, status } = listDraftsSchema.parse(args)
+        const { type, cursor, status, templateId } = listDraftsSchema.parse(args)
         const prefix = typePath(type)
-        return client.get(`${prefix}/drafts`, { cursor, status })
+        return client.get(`${prefix}/drafts`, { cursor, status, templateId })
       },
     },
     {
