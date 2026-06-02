@@ -109,6 +109,25 @@ export function localizationTools(client: DyspatchClient): ToolDefinition[] {
       },
     },
     {
+      name: 'get_translations',
+      description:
+        'Get all translations for a localization on a draft. Returns a flat key/value map of string keys to translated strings.',
+      inputSchema: localizationRefSchema,
+      annotations: {
+        title: 'Get Translations',
+        readOnlyHint: true,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
+      async handler(args) {
+        const { type, draftId, languageId } = localizationRefSchema.parse(args)
+        const prefix = typePath(type)
+        return client.get(
+          `${prefix}/drafts/${draftId}/localizations/${languageId}/translations`,
+        )
+      },
+    },
+    {
       name: 'set_translations',
       description:
         'Replace all translations for a localization on a draft. The translations object is a flat key/value map of string keys to translated strings.',

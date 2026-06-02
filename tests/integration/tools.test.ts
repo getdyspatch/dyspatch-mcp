@@ -328,19 +328,12 @@ describe.skipIf(!apiKey || !workspaceId)('MCP tools — comprehensive integratio
       expect(result.id).toBe(firstDraftId)
     })
 
-    it('list_drafts — status param is forwarded (invalid values rejected by API)', async () => {
-      // The status param is validated server-side; we test that the tool correctly
-      // forwards it. An invalid_parameter error confirms the param was received.
-      try {
-        const result = await getTool(drftTools, 'list_drafts').handler({
-          type: 'email',
-          status: 'PENDING_APPROVAL',
-        }) as any
-        expect(Array.isArray(result.data)).toBe(true)
-      } catch (e: any) {
-        // API rejects unknown status values — confirms the param was forwarded
-        expect(e.code).toBe('invalid_parameter')
-      }
+    it('list_drafts — status filter narrows results', async () => {
+      const result = await getTool(drftTools, 'list_drafts').handler({
+        type: 'email',
+        status: 'LOCKED_FOR_TRANSLATION',
+      }) as any
+      expect(Array.isArray(result.data)).toBe(true)
     })
 
     it('get_draft_localization_keys — returns array of keys', async () => {

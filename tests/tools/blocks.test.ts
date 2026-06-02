@@ -113,6 +113,27 @@ describe('delete_block_localization', () => {
   })
 })
 
+describe('get_block_translations', () => {
+  let ctx: ReturnType<typeof setup>
+  beforeEach(() => {
+    ctx = setup()
+    ctx.client.get = vi.fn().mockResolvedValue({ greeting: 'Bonjour' })
+  })
+
+  it('GET /blocks/{blockId}/localizations/{lang}/translations', async () => {
+    await ctx.get('get_block_translations').handler({ blockId: 'blo_abc', languageId: 'fr-FR' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/blocks/blo_abc/localizations/fr-FR/translations')
+  })
+
+  it('throws on missing languageId', async () => {
+    await expect(ctx.get('get_block_translations').handler({ blockId: 'blo_abc' })).rejects.toThrow()
+  })
+
+  it('throws on missing blockId', async () => {
+    await expect(ctx.get('get_block_translations').handler({ languageId: 'fr-FR' })).rejects.toThrow()
+  })
+})
+
 describe('set_block_translations', () => {
   let ctx: ReturnType<typeof setup>
   beforeEach(() => {

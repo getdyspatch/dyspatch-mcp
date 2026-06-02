@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "dyspatch-mcp",
   "display_name": "Dyspatch",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "MCP server for the Dyspatch.io API — manage email, SMS, push, voice, and live activity templates, drafts, localizations, and renders.",
   "author": {
     "name": "Dyspatch",
@@ -31,7 +31,9 @@
     "entry_point": "mcpb-dist/server.js",
     "mcp_config": {
       "command": "node",
-      "args": ["${__dirname}/mcpb-dist/server.js"],
+      "args": [
+        "${__dirname}/mcpb-dist/server.js"
+      ],
       "env": {
         "DYSPATCH_API_KEY": "${user_config.dyspatch_api_key}"
       }

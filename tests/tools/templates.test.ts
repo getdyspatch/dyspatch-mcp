@@ -19,32 +19,47 @@ describe('list_templates', () => {
 
   it('GET /templates for email (no prefix)', async () => {
     await ctx.get('list_templates').handler({ type: 'email' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/templates', { cursor: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/templates', { cursor: undefined, name: undefined, folderId: undefined, workspaceId: undefined })
   })
 
   it('GET /sms/templates for sms', async () => {
     await ctx.get('list_templates').handler({ type: 'sms' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/sms/templates', { cursor: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/sms/templates', { cursor: undefined, name: undefined, folderId: undefined, workspaceId: undefined })
   })
 
   it('GET /push/templates for push', async () => {
     await ctx.get('list_templates').handler({ type: 'push' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/push/templates', { cursor: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/push/templates', { cursor: undefined, name: undefined, folderId: undefined, workspaceId: undefined })
   })
 
   it('GET /voice/templates for voice', async () => {
     await ctx.get('list_templates').handler({ type: 'voice' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/voice/templates', { cursor: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/voice/templates', { cursor: undefined, name: undefined, folderId: undefined, workspaceId: undefined })
   })
 
   it('GET /liveactivity/templates for liveactivity', async () => {
     await ctx.get('list_templates').handler({ type: 'liveactivity' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/liveactivity/templates', { cursor: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/liveactivity/templates', { cursor: undefined, name: undefined, folderId: undefined, workspaceId: undefined })
   })
 
   it('forwards pagination cursor', async () => {
     await ctx.get('list_templates').handler({ type: 'email', cursor: 'page2' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/templates', { cursor: 'page2' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/templates', { cursor: 'page2', name: undefined, folderId: undefined, workspaceId: undefined })
+  })
+
+  it('forwards name filter', async () => {
+    await ctx.get('list_templates').handler({ type: 'email', name: 'welcome' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/templates', { cursor: undefined, name: 'welcome', folderId: undefined, workspaceId: undefined })
+  })
+
+  it('forwards folderId filter', async () => {
+    await ctx.get('list_templates').handler({ type: 'email', folderId: 'fdr_abc' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/templates', { cursor: undefined, name: undefined, folderId: 'fdr_abc', workspaceId: undefined })
+  })
+
+  it('forwards workspaceId filter', async () => {
+    await ctx.get('list_templates').handler({ type: 'email', workspaceId: 'fdr_xyz' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/templates', { cursor: undefined, name: undefined, folderId: undefined, workspaceId: 'fdr_xyz' })
   })
 
   it('throws on invalid type', async () => {

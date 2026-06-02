@@ -109,6 +109,32 @@ describe('delete_localization', () => {
   })
 })
 
+describe('get_translations', () => {
+  let ctx: ReturnType<typeof setup>
+  beforeEach(() => {
+    ctx = setup()
+    ctx.client.get = vi.fn().mockResolvedValue({ greeting: 'Bonjour' })
+  })
+
+  it('GET /drafts/{id}/localizations/{lang}/translations', async () => {
+    await ctx.get('get_translations').handler(LANG_ARGS)
+    expect(ctx.client.get).toHaveBeenCalledWith(
+      '/drafts/tdft_123/localizations/fr-FR/translations',
+    )
+  })
+
+  it('uses channel prefix for sms', async () => {
+    await ctx.get('get_translations').handler({ type: 'sms', draftId: 'tdft_abc', languageId: 'de-DE' })
+    expect(ctx.client.get).toHaveBeenCalledWith(
+      '/sms/drafts/tdft_abc/localizations/de-DE/translations',
+    )
+  })
+
+  it('throws on missing languageId', async () => {
+    await expect(ctx.get('get_translations').handler(DRAFT_ARGS)).rejects.toThrow()
+  })
+})
+
 describe('set_translations', () => {
   let ctx: ReturnType<typeof setup>
   beforeEach(() => {

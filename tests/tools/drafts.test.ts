@@ -21,22 +21,32 @@ describe('list_drafts', () => {
 
   it('GET /drafts for email', async () => {
     await ctx.get('list_drafts').handler({ type: 'email' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/drafts', { cursor: undefined, status: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/drafts', { cursor: undefined, status: undefined, templateId: undefined })
   })
 
   it('GET /sms/drafts for sms', async () => {
     await ctx.get('list_drafts').handler({ type: 'sms' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/sms/drafts', { cursor: undefined, status: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/sms/drafts', { cursor: undefined, status: undefined, templateId: undefined })
   })
 
   it('forwards cursor', async () => {
     await ctx.get('list_drafts').handler({ type: 'email', cursor: 'abc' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/drafts', { cursor: 'abc', status: undefined })
+    expect(ctx.client.get).toHaveBeenCalledWith('/drafts', { cursor: 'abc', status: undefined, templateId: undefined })
   })
 
   it('forwards status filter', async () => {
-    await ctx.get('list_drafts').handler({ type: 'email', status: 'PENDING_APPROVAL' })
-    expect(ctx.client.get).toHaveBeenCalledWith('/drafts', { cursor: undefined, status: 'PENDING_APPROVAL' })
+    await ctx.get('list_drafts').handler({ type: 'email', status: 'LOCKED_FOR_TRANSLATION' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/drafts', { cursor: undefined, status: 'LOCKED_FOR_TRANSLATION', templateId: undefined })
+  })
+
+  it('rejects invalid status values', async () => {
+    await expect(ctx.get('list_drafts').handler({ type: 'email', status: 'PENDING_APPROVAL' })).rejects.toThrow()
+    await expect(ctx.get('list_drafts').handler({ type: 'email', status: 'IN_PROGRESS' })).rejects.toThrow()
+  })
+
+  it('forwards templateId filter', async () => {
+    await ctx.get('list_drafts').handler({ type: 'email', templateId: 'tem_abc' })
+    expect(ctx.client.get).toHaveBeenCalledWith('/drafts', { cursor: undefined, status: undefined, templateId: 'tem_abc' })
   })
 
   it('throws on invalid type', async () => {

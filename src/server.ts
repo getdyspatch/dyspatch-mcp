@@ -26,6 +26,8 @@ import { localizationTools } from './tools/localizations.js'
 import { blockTools } from './tools/blocks.js'
 import { workspaceTools } from './tools/workspaces.js'
 import { tagTools } from './tools/tags.js'
+import { customerProfileTools } from './tools/customerProfiles.js'
+import { themeTools } from './tools/themes.js'
 
 export interface ToolAnnotations {
   title?: string
@@ -80,6 +82,8 @@ export function createMcpServer(): Server {
     ...blockTools(client),
     ...workspaceTools(client),
     ...tagTools(client),
+    ...customerProfileTools(client),
+    ...themeTools(client),
   ]
 
   const toolMap = new Map<string, ToolDefinition>(allTools.map((t) => [t.name, t]))

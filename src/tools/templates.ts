@@ -16,6 +16,9 @@ import {
 const listTemplatesSchema = z.object({
   type: TemplateType.describe(TEMPLATE_TYPE_DESCRIPTION),
   cursor: z.string().optional().describe(CURSOR_DESCRIPTION),
+  name: z.string().optional().describe('Filter templates by name (case-insensitive partial match)'),
+  folderId: z.string().optional().describe('Filter templates by folder ID (immediate children only)'),
+  workspaceId: z.string().optional().describe('Filter templates by workspace ID (includes all nested folders)'),
 })
 
 const getTemplateSchema = z.object({
@@ -43,7 +46,7 @@ export function templateTools(client: DyspatchClient): ToolDefinition[] {
     {
       name: 'list_templates',
       description:
-        'List published templates of a given channel type (email, sms, push, voice, or liveactivity). Returns paginated results.',
+        'List published templates of a given channel type (email, sms, push, voice, or liveactivity). Optionally filter by name, folder, or workspace. Returns paginated results.',
       inputSchema: listTemplatesSchema,
       annotations: {
         title: 'List Templates',
@@ -52,9 +55,9 @@ export function templateTools(client: DyspatchClient): ToolDefinition[] {
         openWorldHint: true,
       },
       async handler(args) {
-        const { type, cursor } = listTemplatesSchema.parse(args)
+        const { type, cursor, name, folderId, workspaceId } = listTemplatesSchema.parse(args)
         const prefix = typePath(type)
-        return client.get(`${prefix}/templates`, { cursor })
+        return client.get(`${prefix}/templates`, { cursor, name, folderId, workspaceId })
       },
     },
     {
